@@ -1,5 +1,8 @@
 from os import getenv
 
+import chess
+from cairosvg import svg2png
+from chess import svg
 from telegram import bot, Bot
 from telegram.ext import Updater, run_async, MessageHandler, Filters
 
@@ -30,7 +33,14 @@ def photo_handler(update, context):
     photo_meta.download('image.jpg')
 
     result = detection_and_classification("./")
-    print(result)
+    fen = "r1bqkbnr/pppp2pp/2n2p2/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"
+
+    board = chess.Board(fen)
+    boardsvg = svg.board(board=board)
+
+    svg2png(bytestring=str(boardsvg), write_to='output.png')
+    chat_id = update.message.chat.id
+    bot.send_photo(chat_id,  photo=open('output.png', 'rb'), caption="Here is detected chessboard configuration")
 
 
 def main():

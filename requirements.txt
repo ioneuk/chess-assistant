@@ -35,3 +35,7 @@ thop  # FLOPS computation
 pycocotools>=2.0  # COCO mAP
 
 python-telegram-bot==13.0
+
+stockfish==3.13.0
+chess==1.4.0
+cairosvg
