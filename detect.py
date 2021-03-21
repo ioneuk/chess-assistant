@@ -5,11 +5,10 @@ from utils.datasets import LoadImages
 from utils.general import non_max_suppression, scale_coords
 from utils.torch_utils import select_device
 
-MODEL_PATH = '/Users/ioneuk/Documents/machine-learning/hackathon-game-assistant/chess-assistant/best.pt'
+MODEL_PATH = './best.pt'
 device = select_device('')
 model = attempt_load(MODEL_PATH, map_location=device)
 names = model.names
-
 
 
 def detection_and_classification(img_path):
@@ -44,6 +43,5 @@ def detection_and_classification(img_path):
 
 
 if __name__ == "__main__":
-    res = detection_and_classification(
-        '/Users/ioneuk/Downloads/ChessPieces/test/0b47311f426ff926578c9d738d683e76_jpg.rf.40183eae584a653181bbd795ba3c353f.jpg')
+    res = detection_and_classification("./data/board1.jpg")
     print(res)
