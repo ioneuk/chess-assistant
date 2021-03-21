@@ -334,9 +334,9 @@ def loadImage(filepath):
     img_width, img_height = img_orig.size
 
     # Resize
-    aspect_ratio = min(500.0 / img_width, 500.0 / img_height)
-    new_width, new_height = ((np.array(img_orig.size) * aspect_ratio)).astype(int)
-    img = img_orig.resize((new_width, new_height), resample=PIL.Image.BILINEAR)
+    # aspect_ratio = min(500.0 / img_width, 500.0 / img_height)
+    # new_width, new_height = ((np.array(img_orig.size) * aspect_ratio)).astype(int)
+    img = img_orig.resize((img_width, img_height), resample=PIL.Image.BILINEAR)
     img = img.convert('L')  # grayscale
     img = np.array(img)
 
@@ -591,7 +591,7 @@ def get_cells(file_path, show: bool = False):
                 image = cv2.circle(image, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
 
             cv2.imshow("Test", image)
-            cv2.waitKey(0)
+            # cv2.waitKey(0)
 
         return cells
 
@@ -599,7 +599,7 @@ def get_cells(file_path, show: bool = False):
         raise RuntimeError(f"Board not detected: {file_path}")
 
 
-def getPosition(x, y, cells):
+def get_position(x, y, cells):
     assert(len(cells) == 8)
     for cell in cells:
         assert (len(cell) == 8)
@@ -614,10 +614,10 @@ def getPosition(x, y, cells):
                 break
         if horizontal != -1:
             break
-    if horizontal == -1:
-        return ""
-    else:
+
+    if horizontal != -1:
         return horizontal, vertical
+    return -1, -1
 
 
 def get_fen(positions: list):
@@ -636,10 +636,11 @@ def get_fen(positions: list):
 
     for pos in positions:
         fig = pos[0]
-        ver = verticals.index(pos[1])
+        ver = pos[1]
         hor = pos[2]
         board[hor][ver] = fig
-    board.reverse()
+    # board.reverse()
+    # print(board)
 
     fen = ""
     for i in range(8):
@@ -662,7 +663,7 @@ def get_fen(positions: list):
 if __name__ == '__main__':
     # main()
     # chessboard_detection("./data/board1.jpg", "./data/board1_out.png")
-    # cells = get_cells("data/board1.jpg")
+    cells = get_cells("data/demo1.jpg", show=True)
     # print(getPosition(100, 100, cells))
     # print(positions_to_fen([("k", 4, 5), ("b", 1, 8)]))
-    print(get_fen([("k", "a", 7), ("b", "b", 7)]))
+    # print(get_fen([("k", "a", 7), ("b", "b", 7)]))
